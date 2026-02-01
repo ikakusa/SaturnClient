@@ -1,0 +1,9 @@
+#pragma once
+#define WINDOWS_LEAN_AND_MEAN
+#include <Windows.h>
+#include <libhat/scanner.hpp>
+#include <iostream>
+#include <filesystem>
+#include <direct.h>
+#include "MinHook/MinHook.h"
+#include <Psapi.h>
