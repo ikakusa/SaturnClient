@@ -11,6 +11,11 @@ std::string Utils::getRoamingStatePath() {
     return path;
 }
 
+std::string Utils::u8ToString(const char8_t* str) {
+    std::u8string u8str(str);
+    return std::string(u8str.begin(), u8str.end());
+}
+
 std::string Utils::getClientPath() {
     return getRoamingStatePath() + client.getName();
 }

@@ -7,7 +7,7 @@ add_library(${PROJECT_NAME} SHARED
     "src/Libraries/Libraries.h"
     "src/Utils/Utils.h" "src/Utils/Utils.cpp"
  "src/Utils/ClientData.h" "src/Utils/ClientData.cpp" "src/Utils/MemUtils.h" "src/Hooks/HookManager.cpp"
- "src/Hooks/ActorHook/ActorHook.h" "src/SDK/Actor/Actor.h" "src/SDK/Actor/Player.h" "src/SDK/Actor/LocalPlayer.h" "src/SDK/Actor/Mob.h" "src/Hooks/SystemHook/SystemHook.h" "src/SDK/Core/ClientInstance.h" "src/SDK/Core/GuiData.h" "src/Hooks/ClientInstanceHook/ClientInstanceHook.h" "src/SDK/Actor/Level.h" "src/Utils/MathUtils.h" "src/SDK/Actor/Components/StateVectorComponent.h" "src/SDK/Actor/Components/RotationComponent.h")
+ "src/Hooks/ActorHook/ActorHook.h" "src/SDK/Actor/Actor.h" "src/SDK/Actor/Player.h" "src/SDK/Actor/LocalPlayer.h" "src/SDK/Actor/LocalPlayer.cpp" "src/SDK/Actor/Mob.h" "src/Hooks/SystemHook/SystemHook.h" "src/SDK/Core/ClientInstance.h" "src/SDK/Core/GuiData.h" "src/Hooks/ClientInstanceHook/ClientInstanceHook.h" "src/SDK/Actor/Level.h" "src/Utils/MathUtils.h" "src/SDK/Actor/Components/StateVectorComponent.h" "src/SDK/Actor/Components/RotationComponent.h")
 
 target_include_directories(${PROJECT_NAME} PUBLIC
     "${CMAKE_SOURCE_DIR}/src/Libraries"
@@ -17,7 +17,15 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 target_sources(${PROJECT_NAME} PUBLIC
     "src"
- "src/Hooks/ActorHook/ActorHook.h" "src/SDK/Actor/Actor.h" "src/SDK/Actor/Player.h" "src/SDK/Actor/LocalPlayer.h" "src/SDK/Actor/Mob.h" "src/Hooks/SystemHook/SystemHook.h" "src/SDK/Core/ClientInstance.h" "src/SDK/Core/GuiData.h" "src/Hooks/ClientInstanceHook/ClientInstanceHook.h" "src/SDK/Actor/Level.h" "src/Utils/MathUtils.h" "src/SDK/Actor/Components/StateVectorComponent.h" "src/SDK/Actor/Components/RotationComponent.h")
+ "src/Hooks/ActorHook/ActorHook.h" "src/SDK/Actor/Actor.h" "src/SDK/Actor/Player.h" "src/SDK/Actor/LocalPlayer.h" "src/SDK/Actor/LocalPlayer.cpp" "src/SDK/Actor/Mob.h" "src/Hooks/SystemHook/SystemHook.h" "src/SDK/Core/ClientInstance.h" "src/SDK/Core/GuiData.h" "src/Hooks/ClientInstanceHook/ClientInstanceHook.h" "src/SDK/Actor/Level.h" "src/Utils/MathUtils.h" "src/SDK/Actor/Components/StateVectorComponent.h" "src/SDK/Actor/Components/RotationComponent.h")
+
+if(MSVC)
+    add_compile_definitions(
+        _ITERATOR_DEBUG_LEVEL=0
+        _HAS_ITERATOR_DEBUGGING=0
+    )
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+endif()
 
 FetchContent_Declare(
     libhat

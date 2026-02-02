@@ -11,6 +11,8 @@ namespace LocalPlayerHook {
         static inline __int64 handle(LocalPlayer* _this) {
             auto oFunc = hookData->getFunc<__int64, LocalPlayer*>();
             client.setLocalPlayer(_this);
+            auto txt = Utils::u8ToString(u8"‚æ‚¨‚¨‚¨‚¨‚¨‚¨‚¨‚¨");
+            _this->displayClientMessage("%s", txt.c_str());
             return oFunc(_this);
         }
         normalTick() : HookClass("LocalPlayer::normalTick", address)
