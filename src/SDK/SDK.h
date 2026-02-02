@@ -1,4 +1,6 @@
 #pragma once
+#include "Actor/Components/StateVectorComponent.h"
+#include "Actor/Components/RotationComponent.h"
 #include "Actor/Actor.h"
 #include "Actor/Player.h"
 #include "Actor/LocalPlayer.h"

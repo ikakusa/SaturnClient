@@ -11,6 +11,7 @@ namespace ClientInstanceHook {
             auto oFunc = hookData->getFunc<__int64, ClientInstance*, int>();
             client.setClientInstance(_this);
             client.setGuiData(_this->guiData);
+            _this->guiData->displayClientMessage("aaa");
             return oFunc(_this, wa);
         }
         update() : HookClass("LocalPlayer::normalTick", address)

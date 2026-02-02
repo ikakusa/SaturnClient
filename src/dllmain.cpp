@@ -1,5 +1,6 @@
 ﻿#include <Libraries.h>
 #include <Utils.h>
+#include <ClientData.h>
 #include "Hooks/HookManager.h"
 
 HRESULT EjectThread() {

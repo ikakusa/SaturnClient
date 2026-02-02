@@ -3,6 +3,7 @@
 #include <MemUtils.h>
 #include <SDK.h>
 #include <Utils.h>
+#include <ClientData.h>
 
 class HookData {
 public:

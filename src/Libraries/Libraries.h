@@ -5,6 +5,9 @@
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
+#include <string>
+#include <optional>
+#include <cstdarg>
 #include <filesystem>
 #include <direct.h>
 #include "MinHook/MinHook.h"
