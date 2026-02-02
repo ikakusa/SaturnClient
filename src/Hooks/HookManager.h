@@ -1,7 +1,8 @@
 #pragma once
 
-#include <Libraries.h>
 #include <MemUtils.h>
+#include <SDK.h>
+#include <Utils.h>
 
 class HookData {
 public:
@@ -27,7 +28,7 @@ public:
 		address = _addr;
 	}
 	bool Disable() {
-
+		return MH_DisableHook((void*)address) == MH_OK;
 	}
 	bool Create(std::unique_ptr<HookData>& data, void* callback) {
 		data = std::make_unique<HookData>(address, callback);
@@ -43,6 +44,7 @@ private:
 	std::vector<HookClass*> hookList;
 public:
 	bool Initialize();
+	bool Restore();
 	void add(HookClass* hook) {
 		hookList.push_back(hook);
 	};

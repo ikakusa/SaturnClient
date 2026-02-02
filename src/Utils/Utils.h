@@ -31,18 +31,24 @@ public:
 		vsnprintf_s(message, sizeof(message), _TRUNCATE, str, arg);
 		std::string msg(message);
 		msg += "\n";
+		std::string path = getClientPath() + "\\Logs\\logs.txt";
+		std::ofstream ofs(path, std::ios::app);
+		if (ofs.is_open()) {
+			ofs << msg;
+			ofs.close();
+		}
 		OutputDebugStringA(msg.c_str());
 		va_end(arg);
 	}
-#define logF(str, ...) outputDebugLog(xorstr_(str), __VA_ARGS__)
 
 	static void makeFolder() {
-		std::string path = Utils::getRoamingStatePath() + client.getName();
+		std::string path = getClientPath();
 		_mkdir(path.c_str());
 	}
 
 	static inline void makeAssetsFolder(std::string name) {
-		std::string path = getClientPath() + name;
+		std::string path = getClientPath() + "\\" + name;
 		_mkdir(path.c_str());
 	}
 };
+#define logF(str, ...) Utils::outputDebugLog(str, __VA_ARGS__)

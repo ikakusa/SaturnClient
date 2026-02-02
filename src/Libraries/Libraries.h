@@ -1,8 +1,10 @@
 #pragma once
 #define WINDOWS_LEAN_AND_MEAN
 #include <Windows.h>
-#include <libhat/scanner.hpp>
+#include <libhat.hpp>
 #include <iostream>
+#include <fstream>
+#include <stdio.h>
 #include <filesystem>
 #include <direct.h>
 #include "MinHook/MinHook.h"
