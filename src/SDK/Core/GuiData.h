@@ -11,8 +11,9 @@ public:
 		va_start(arg, str);
 		std::string msg = Utils::formatString(str, arg);
 		static uintptr_t address = MemUtils::find_signature("40 55 53 56 57 41 56 48 8D AC 24 A0 FE");
-		using funfun = void(__fastcall*)(GuiData*, const std::string&, const std::optional<std::string>&, char);
-		funfun funfunfun = reinterpret_cast<funfun>(address);
-		funfunfun(this, msg, std::make_optional<std::string>(msg), 0);
+		using fun_t = void(__fastcall*)(GuiData*, const std::string&, const std::optional<std::string>&, bool);
+		auto func = reinterpret_cast<fun_t>(address);
+		std::optional<std::string> filtered = "a";
+		func(this, msg, filtered, false);
 	}
 };
