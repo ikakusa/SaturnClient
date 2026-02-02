@@ -1,29 +1,40 @@
 #pragma once
 #include <Libraries.h>
 
-template <typename TYPE, typename OWNER>
+class Utils;
+class MemUtils;
+template <typename T>
 class SafeMemory {
 private:
-	int offset;
-	OWNER* base;
+    uintptr_t offset;
+
 public:
-	SafeMemory(OWNER* _base, int _offset) : offset(_offset), base(_base) {};
-	TYPE& get() {
-		if (!base) return nullptr;
-		return *reinterpret_cast<TYPE*>(reinterpret_cast<uintptr_t>(base) + offset);
-	}
-	void set(TYPE value) {
-		*reinterpret_cast<TYPE*>(reinterpret_cast<uintptr_t>(base) + offset) = value;
-	}
-	~SafeMemory() = default;
-public:
-	operator TYPE&() {
-		return get();
-	}
-	operator const TYPE& () {
-		return get();
-	}
+    constexpr SafeMemory(uintptr_t offset) : offset(offset) {}
+
+    T& get(void* parent) const {
+        uintptr_t target = reinterpret_cast<uintptr_t>(parent) + offset;
+
+        if (!MemUtils::isReadable(target)) {
+            static T _default = T();
+            return _default;
+        }
+
+        return *reinterpret_cast<T*>(target);
+    }
+
+    void set(void* parent, const T& value) const {
+        uintptr_t target = reinterpret_cast<uintptr_t>(parent) + offset;
+        if (MemUtils::isReadable(target)) {
+            *reinterpret_cast<T*>(target) = value;
+        }
+    }
 };
+
+#define SAFE_ACCESS(type, name, offset) \
+    static constexpr SafeMemory<type> _##name{ offset }; \
+    __declspec(property(get = get_##name, put = set_##name)) type name; \
+    inline type get_##name() const { return _##name.get((void*)this); } \
+    inline void set_##name(type val) { _##name.set((void*)this, val); }
 
 class MemUtils {
 public:

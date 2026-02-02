@@ -3,5 +3,5 @@
 class Level;
 class Actor {
 public:
-	SafeMemory<Level*, Actor> level{ this, 0x1D8 }; //1.21.132
+	SAFE_ACCESS(Level*, level, 0x1D8); //1.21.132
 };

@@ -18,6 +18,7 @@ public:
 		return *this;
 	}
 	T get() {
+		if (!value) return nullptr;
 		auto res = value.get();
 		if (!res || !MemUtils::isReadable(reinterpret_cast<uintptr_t>(res))) return nullptr;
 		return res;
@@ -25,10 +26,10 @@ public:
 	SafeMember() : value(std::shared_ptr<BaseType>(nullptr, [](BaseType* p) { delete p; })) {}
 	SafeMember(T defaultValue) : value(std::shared_ptr<BaseType>(defaultValue, [](BaseType* p) { })) {}
 public:
-	operator T& () {
-		return get();
+	operator bool() {
+		return !value || !value.get() || !MemUtils::isReadable(reinterpret_cast<uintptr_t>(value.get()));
 	}
-	operator const T& () {
+	operator T& () {
 		return get();
 	}
 	T operator->() { return value.get(); }
@@ -63,6 +64,9 @@ public:
 	}
 	void setClientInstance(ClientInstance* ci) {
 		clientInstance = ci;
+	}
+	void setGuiData(GuiData* gd) {
+		guiData = gd;
 	}
 	LocalPlayer* getLocalPlayer() {
 		return localPlayer.get();

@@ -10,8 +10,10 @@ namespace ClientInstanceHook {
         static inline __int64 handle(ClientInstance* _this, int wa) {
             auto oFunc = hookData->getFunc<__int64, ClientInstance*, int>();
             client.setClientInstance(_this);
+            auto rawGuidata = _this->guiData;
+            client.setGuiData(rawGuidata);
             if (client.getLocalPlayer()) {
-                logF("lvl: %p", client.getClientInstance()->guiData);
+                logF("lvl: %.1f", client.getGuiData()->windowSize);
             }
             return oFunc(_this, wa);
         }
