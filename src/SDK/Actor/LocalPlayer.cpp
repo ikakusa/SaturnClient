@@ -10,4 +10,5 @@ void LocalPlayer::displayClientMessage(const char* str, ...) {
 	auto func = reinterpret_cast<fun_t>(address);
 	std::optional<std::string> filtered = str;
 	func(this, msg, filtered);
+	va_end(arg);
 }

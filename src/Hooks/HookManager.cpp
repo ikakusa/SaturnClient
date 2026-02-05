@@ -1,16 +1,20 @@
 #include "HookManager.h"
 
 #include "SystemHook/SystemHook.h"
+#include "DirectXHook/DirectXHook.h"
 #include "ActorHook/ActorHook.h"
 #include "ClientInstanceHook/ClientInstanceHook.h"
+#include "ScreenContextHook/ScreenContextHook.h"
 bool HookManager::Initialize() {
 	logF("Initializing hooks");
+	DirectXHook::Initialize();
 	MH_Initialize();
 	{
 		add(new SystemHook::FreeLibraryFn());
 		add(new ClientInstanceHook::update());
 		add(new LocalPlayerHook::normalTick());
 		add(new MobHook::getCurrentSwingDuration());
+		add(new ScreenContextHook::drawSplashText());
 	}
 	MH_EnableHook(MH_ALL_HOOKS);
 	logF("Initialized hooks");
@@ -19,6 +23,7 @@ bool HookManager::Initialize() {
 
 bool HookManager::Restore() {
 	logF("Deleting hooks");
+	DirectXHook::shutdown();
 	for (size_t i = 0; i < hookList.size(); ) {
 		if (hookList[i]->Disable()) {
 			delete hookList[i];

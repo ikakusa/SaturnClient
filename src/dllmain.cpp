@@ -37,6 +37,7 @@ BOOL WINAPI DllMain(
     case DLL_PROCESS_ATTACH:
     {
         client.setMod(hModule);
+        DisableThreadLibraryCalls(hModule);
         CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Initialize, 0, 0, 0);
     } break;
 
