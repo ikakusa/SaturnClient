@@ -17,20 +17,22 @@ namespace ScreenContextHook {
             static Animation<EaseOutBounce> ease;
             static Animation<EaseInOutBack> easeAngle;
             easeAngle.setLoop(true);
-            easeAngle.setLoopMode(LoopMode::NORMAL);
+            easeAngle.setLoopMode(LoopMode::REVERSE);
             easeAngle.setLoopProgress(0.9745998633f);
             easeAngle.Play(0.f, 360.f, 0.2f, true);
 
-            ease.setLoop(false);
+            ease.setLoop(true);
             ease.setLoopMode(LoopMode::REVERSE);
-            ease.Play(0.f, 1.5f, 1.f, true);
+            ease.Play(0.f, 35.f, 0.2f, true);
             float ss = ease.Update();
             float newangle = easeAngle.Update();
             std::string aaa(Utils::u8ToString(u8"私バカです\n私バカです\n私バカです"));
             color[0] = 0.27058823529;
             color[1] = 0.14901960784;
             color[2] = 0.85490196078;
-            return oFunc(_this, font, aaa, position, color, angle, ease.Update());
+            auto whyasmr = easeAngle.Update();
+            auto whyasmr2 = ease.Update();
+            return oFunc(_this, font, aaa, position, color, whyasmr, whyasmr2);
         }
         drawSplashText() : HookClass("ScreenContext::drawSplashText", address)
         {
