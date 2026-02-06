@@ -3,20 +3,6 @@
 #include <DX11/DirectX11.h>
 #include <AnimationUtils.h>
 
-#define バカ！ bool
-#define バカス int
-#define バカ ++
-#define ばか true
-#define 馬鹿 false
-#define ばかあ static
-#define アホ auto
-#define あほ float
-#define あほお std::chrono::steady_clock
-#define カス ::now()
-#define かす std::chrono
-#define カス！ --
-#define 間抜け ;
-
 namespace ScreenContextHook {
     class drawSplashText : public HookClass {
     private:
@@ -42,25 +28,30 @@ namespace ScreenContextHook {
             float newangle = easeAngle.Update();
             
             // baka script
-            アホ BAKA = Utils::u8ToString(u8"私魚です。") 間抜け
-            アホ length = BAKA.size() 間抜け
-            ばかあ バカス ボケ = 0 間抜け
-            アホ awaaa = BAKA.substr(0, ボケ) 間抜け
-            アホ baka = あほお カス 間抜け
-            ばかあ アホ manuke = あほお::time_point() 間抜け
-            ばかあ バカ！ aho = 馬鹿 間抜け
-            アホ woah = かす::duration_cast<かす::milliseconds>(baka - start).count() 間抜け
-            if (ボケ < length && woah >= 250) {
-                start = あほお カス 間抜け
-                manuke = あほお カス 間抜け
-                aho = ばか 間抜け
-                ボケ バカ 間抜け
+            auto BAKA = Utils::u8ToString(u8"私バカです。");
+            auto length = BAKA.size();
+            static bool time_to_baka = true;
+            static int count = 0 ;
+            auto awaaa = BAKA.substr(0, count);
+            auto now = std::chrono::steady_clock::now();
+            static auto manuke = std::chrono::steady_clock::time_point();
+            static auto tick_vertical_bar = std::chrono::steady_clock::time_point();
+            static bool typed = false;
+            auto woah = std::chrono::duration_cast<std::chrono::milliseconds>(now - start).count() ;
+            if (!typed && count < length && woah >= 250) {
+                start = std::chrono::steady_clock::now() ;
+                manuke = std::chrono::steady_clock::now() ;
+                count++;
             }
-            if (ボケ > 0 && aho && woah >= 75 && (manuke - baka).count() >= 800) {
-                ボケ カス！ 間抜け
+            if (count == length) {
+                typed = true;
             }
-            else if (aho && ボケ == 0) {
-                aho = 馬鹿 間抜け
+            if (count > 0 && typed && woah >= 15 && std::chrono::duration_cast<std::chrono::milliseconds>(now - manuke).count() >= 800) {
+                start = std::chrono::steady_clock::now();
+                count--;
+            }
+            if (typed && count == 0) {
+                typed = false;
             }
             //
             color[0] = 0.27058823529;
@@ -68,7 +59,7 @@ namespace ScreenContextHook {
             color[2] = 0.85490196078;
             auto whyasmr = easeAngle.Update();
             auto whyasmr2 = ease.Update();
-            return oFunc(_this, font, awaaa, position, color, angle, s * 2.f);
+            return oFunc(_this, font, awaaa + std::string(!awaaa.empty() ? "ﾂｧe|" : ""), position, color, angle, s * 2.f);
         }
         drawSplashText() : HookClass("ScreenContext::drawSplashText", address)
         {
