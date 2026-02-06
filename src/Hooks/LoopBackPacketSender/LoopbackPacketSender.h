@@ -9,13 +9,6 @@ namespace LoopbackPacketSenderHook {
     public:
         static inline __int64 handle(LoopbackPacketSender* _this, Packet* packet) {
             auto oFunc = hookData->getFunc<__int64, LoopbackPacketSender*, Packet*>();
-            if (packet->is(MinecraftPacketIds::RequestPermissionsPacket)) {
-                auto pkt = packet->as<RequestPermission>();
-                auto permissionLevel = pkt->permissionLevel;
-                auto flags = pkt->permissionFlags;
-                pkt->permissionLevel = PlayerPermissionLevel::Operator;
-                return oFunc(_this, pkt);
-            }
             return oFunc(_this, packet);
         }
         sendToServer() : HookClass("LoopbackPacketSender::sendToServer", address)

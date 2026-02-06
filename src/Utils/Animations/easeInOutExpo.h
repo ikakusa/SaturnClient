@@ -1,15 +1,17 @@
 #pragma once
 #include "easeBase.h"
-static float easeInOutBack(float x) {
-    float c1 = 1.70158f;
-    float c2 = c1 * 1.525f;
+#define PI 3.141592653589793
 
-    return x < 0.5f
-        ? (powf(2.f * x, 2.f) * ((c2 + 1.f) * 2.f * x - c2)) / 2.f
-        : (powf(2.f * x - 2.f, 2.f) * ((c2 + 1.f) * (x * 2.f - 2.f) + c2) + 2.f) / 2.f;
+static float easeInOutExpo(float x) {
+    return x == 0.f
+        ? 0.f
+        : x == 1.f
+        ? 1.f
+        : x < 0.5f ? powf(2.f, 20.f * x - 10.f) / 2.f
+        : (2.f - powf(2.f, -20.f * x + 10.f)) / 2.f;
 }
 
-struct EaseInOutBack : public Easing {
+struct EaseInOutExpo: public Easing {
     float Update() override {
         if (!playing) return start;
         if (IsReached(progressForLoop) && repeat) {
@@ -21,7 +23,7 @@ struct EaseInOutBack : public Easing {
 
         t = ImClamp(t, 0.0f, 1.0f);
 
-        easeValue = easeInOutBack(t);
+        easeValue = easeInOutExpo(t);
         return start + (end - start) * easeValue;
     }
 };
