@@ -11,8 +11,6 @@ namespace LocalPlayerHook {
         static inline __int64 handle(LocalPlayer* _this) {
             auto oFunc = hookData->getFunc<__int64, LocalPlayer*>();
             client.setLocalPlayer(_this);
-            //auto txt = Utils::u8ToString(u8"‚æ‚¨‚¨‚¨‚¨‚¨‚¨‚¨‚¨");
-            //_this->displayClientMessage("%s", txt.c_str());
             return oFunc(_this);
         }
         normalTick() : HookClass("LocalPlayer::normalTick", address)
@@ -20,6 +18,30 @@ namespace LocalPlayerHook {
             this->Create(hookData, &handle);
         };
     };
+
+    class swing : public HookClass {
+    private:
+        static inline std::unique_ptr<HookData> hookData;
+        static inline uintptr_t address = MemUtils::find_signature("48 89 5C 24 10 48 89 74 24 18 48 89 7C 24 20 55 48 8D 6C 24 A9 48 81 EC A0 00 00 00 48 8B 05 ?? ?? ?? ?? 48 33 C4 48 89 45 47 0F");
+    public:
+        static inline bool handle(LocalPlayer* _this, SwingType swingType) {
+            auto oFunc = hookData->getFunc<__int64, LocalPlayer*, SwingType>();
+            if (swingType == SwingType::ATTACK) {
+                auto item = _this->getSelectedItem();
+                if (item && item->item) {
+                    client.getGuiData()->displayClientMessage("%s", (*item->item)->fullname.c_str());
+                }
+            }
+            return oFunc(_this, swingType);
+        }
+        swing() : HookClass("LocalPlayer::swing", address)
+        {
+            this->Create(hookData, &handle);
+        };
+    };
+}
+
+namespace ActorHook {
 }
 
 namespace MobHook {

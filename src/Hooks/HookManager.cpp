@@ -5,6 +5,7 @@
 #include "ActorHook/ActorHook.h"
 #include "ClientInstanceHook/ClientInstanceHook.h"
 #include "ScreenContextHook/ScreenContextHook.h"
+#include "OptionsHook/OptionsHook.h"
 bool HookManager::Initialize() {
 	logF("Initializing hooks");
 	DirectXHook::Initialize();
@@ -13,8 +14,10 @@ bool HookManager::Initialize() {
 		add(new SystemHook::FreeLibraryFn());
 		add(new ClientInstanceHook::update());
 		add(new LocalPlayerHook::normalTick());
+		add(new LocalPlayerHook::swing());
 		add(new MobHook::getCurrentSwingDuration());
 		add(new ScreenContextHook::drawSplashText());
+		add(new OptionsHook::getBrightness());
 	}
 	MH_EnableHook(MH_ALL_HOOKS);
 	logF("Initialized hooks");

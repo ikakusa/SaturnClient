@@ -3,6 +3,12 @@
 class Level;
 struct StateVectorComponent;
 struct RotationComponent;
+enum class SwingType : char {
+    PLACE = 1,
+    BREAK = 2,
+    ATTACK = 4,
+    DROP = 7,
+};
 class Actor {
 public:
 	SAFE_ACCESS(StateVectorComponent*, stateVector, 0x218); //1.21.132
