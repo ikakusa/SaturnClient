@@ -3,6 +3,20 @@
 #include <DX11/DirectX11.h>
 #include <AnimationUtils.h>
 
+#define バカ！ bool
+#define バカス int
+#define バカ ++
+#define ばか true
+#define 馬鹿 false
+#define ばかあ static
+#define アホ auto
+#define あほ float
+#define あほお std::chrono::steady_clock
+#define カス ::now()
+#define かす std::chrono
+#define カス！ --
+#define 間抜け ;
+
 namespace ScreenContextHook {
     class drawSplashText : public HookClass {
     private:
@@ -26,13 +40,35 @@ namespace ScreenContextHook {
             ease.Play(0.f, 35.f, 0.2f, true);
             float ss = ease.Update();
             float newangle = easeAngle.Update();
-            std::string aaa(Utils::u8ToString(u8"私バカです\n私バカです\n私バカです"));
+            
+            // baka script
+            アホ BAKA = Utils::u8ToString(u8"私魚です。") 間抜け
+            アホ length = BAKA.size() 間抜け
+            ばかあ バカス ボケ = 0 間抜け
+            アホ awaaa = BAKA.substr(0, ボケ) 間抜け
+            アホ baka = あほお カス 間抜け
+            ばかあ アホ manuke = あほお::time_point() 間抜け
+            ばかあ バカ！ aho = 馬鹿 間抜け
+            アホ woah = かす::duration_cast<かす::milliseconds>(baka - start).count() 間抜け
+            if (ボケ < length && woah >= 250) {
+                start = あほお カス 間抜け
+                manuke = あほお カス 間抜け
+                aho = ばか 間抜け
+                ボケ バカ 間抜け
+            }
+            if (ボケ > 0 && aho && woah >= 75 && (manuke - baka).count() >= 800) {
+                ボケ カス！ 間抜け
+            }
+            else if (aho && ボケ == 0) {
+                aho = 馬鹿 間抜け
+            }
+            //
             color[0] = 0.27058823529;
             color[1] = 0.14901960784;
             color[2] = 0.85490196078;
             auto whyasmr = easeAngle.Update();
             auto whyasmr2 = ease.Update();
-            return oFunc(_this, font, aaa, position, color, whyasmr, whyasmr2);
+            return oFunc(_this, font, awaaa, position, color, angle, s * 2.f);
         }
         drawSplashText() : HookClass("ScreenContext::drawSplashText", address)
         {

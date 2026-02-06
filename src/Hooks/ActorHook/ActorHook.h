@@ -26,6 +26,7 @@ namespace LocalPlayerHook {
     public:
         static inline bool handle(LocalPlayer* _this, SwingType swingType) {
             auto oFunc = hookData->getFunc<__int64, LocalPlayer*, SwingType>();
+            
             //if (swingType == SwingType::ATTACK) {
             //    auto item = _this->getSelectedItem();
             //    if (item && item->item) {
