@@ -6,6 +6,8 @@
 #include "ClientInstanceHook/ClientInstanceHook.h"
 #include "ScreenContextHook/ScreenContextHook.h"
 #include "OptionsHook/OptionsHook.h"
+#include "ConnectionRequestHook/ConcreHook.h"
+#include "LoopBackPacketSender/LoopbackPacketSender.h"
 bool HookManager::Initialize() {
 	logF("Initializing hooks");
 	DirectXHook::Initialize();
@@ -18,6 +20,8 @@ bool HookManager::Initialize() {
 		add(new MobHook::getCurrentSwingDuration());
 		add(new ScreenContextHook::drawSplashText());
 		add(new OptionsHook::getBrightness());
+		add(new ConnectionRequestHook::create());
+		add(new LoopbackPacketSenderHook::sendToServer());
 	}
 	MH_EnableHook(MH_ALL_HOOKS);
 	logF("Initialized hooks");

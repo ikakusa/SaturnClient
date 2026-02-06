@@ -210,6 +210,37 @@ enum class MinecraftPacketIds : int {
     EndId,
 };
 
-class Packet {
+class Packet;
+class MinecraftPackets {
+public:
+    static std::shared_ptr<Packet> createPacket(MinecraftPacketIds packetId) {
+        static uintptr_t Address;
 
+        if (Address == NULL) {
+            Address = MemUtils::find_signature("48 89 5C 24 10 48 89 6C 24 18 48 89 74 24 20 57 48 83 EC 60 48 8B F9 48 89 4C 24 30 33 ED");
+        }
+
+        auto pFunction = reinterpret_cast<std::shared_ptr<Packet>(__fastcall*)(MinecraftPacketIds)>(Address);
+        return pFunction(packetId);
+    }
+};
+class Packet {
+public:
+    uintptr_t** vTable;
+public:
+    std::string getName() {
+        std::string str = "";
+        MemUtils::CallVFunc<std::string*, 2>(this, &str);
+        return str;
+    }
+    static uintptr_t** getVTableFromID(MinecraftPacketIds id) {
+        return MinecraftPackets::createPacket(id).get()->vTable;
+    }
+    bool is(MinecraftPacketIds id) {
+        return this->vTable == getVTableFromID(id);
+    }
+    template <typename T>
+    T* as() {
+        return reinterpret_cast<T*>(this);
+    }
 };

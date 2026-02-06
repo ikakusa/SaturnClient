@@ -1,10 +1,12 @@
 #pragma once
 class GuiData;
 class MinecraftGame;
+class LoopbackPacketSender;
 class ClientInstance {
 public:
 	SAFE_ACCESS(MinecraftGame*, minecraftGame, 0x1A0); //1.21.132
 	SAFE_ACCESS(GuiData*, guiData, 0x648); //1.21.132
+	SAFE_ACCESS(LoopbackPacketSender*, packetSender, 0x1C8); //1.21.132
 public:
 	void grabMouse() {  // index: 311
 		using func_t = void(__fastcall*)(ClientInstance*);
