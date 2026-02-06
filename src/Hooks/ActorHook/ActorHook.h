@@ -26,12 +26,12 @@ namespace LocalPlayerHook {
     public:
         static inline bool handle(LocalPlayer* _this, SwingType swingType) {
             auto oFunc = hookData->getFunc<__int64, LocalPlayer*, SwingType>();
-            if (swingType == SwingType::ATTACK) {
-                auto item = _this->getSelectedItem();
-                if (item && item->item) {
-                    client.getGuiData()->displayClientMessage("%s", (*item->item)->fullname.c_str());
-                }
-            }
+            //if (swingType == SwingType::ATTACK) {
+            //    auto item = _this->getSelectedItem();
+            //    if (item && item->item) {
+            //        client.getGuiData()->displayClientMessage("%s", (*item->item)->fullname.c_str());
+            //    }
+            //}
             return oFunc(_this, swingType);
         }
         swing() : HookClass("LocalPlayer::swing", address)
