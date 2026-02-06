@@ -21,9 +21,6 @@ namespace ScreenContextHook {
             easeAngle.setLoopProgress(0.9745998633f);
             easeAngle.Play(0.f, 360.f, 0.2f, true);
 
-            ease.setLoop(true);
-            ease.setLoopMode(LoopMode::REVERSE);
-            ease.Play(0.f, 35.f, 0.2f, true);
             float ss = ease.Update();
             float newangle = easeAngle.Update();
             
@@ -57,8 +54,7 @@ namespace ScreenContextHook {
             color[0] = 0.27058823529;
             color[1] = 0.14901960784;
             color[2] = 0.85490196078;
-            auto whyasmr = easeAngle.Update();
-            auto whyasmr2 = ease.Update();
+            auto newAngle = easeAngle.Update();
             return oFunc(_this, font, awaaa + std::string(!awaaa.empty() ? "ﾂｧe|" : ""), position, color, angle, s * 2.f);
         }
         drawSplashText() : HookClass("ScreenContext::drawSplashText", address)
