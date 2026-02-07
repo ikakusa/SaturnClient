@@ -10,7 +10,7 @@ namespace ScreenContextHook {
         static inline uintptr_t address = MemUtils::find_signature("48 8B C4 48 89 58 20 55 56 57 41 56 41 57 48 81 EC 20");
     public:
         static inline __int64 handle(ScreenContext* _this, __int64 font, const std::string& text, float* position, float* color, float angle, float s) {
-            static auto start = std::chrono::steady_clock::now();
+            static auto updateTime = std::chrono::steady_clock::now();
             auto oFunc = hookData->getFunc<__int64, ScreenContext*, __int64, const std::string&, float*, float*, float, float>();
             if ((uintptr_t)_ReturnAddress() == MemUtils::getBase() + 0xDE0DF0) return 0;
             if (!ImGui::GetCurrentContext()) return oFunc(_this, font, text, position, color, angle, s);
@@ -25,37 +25,50 @@ namespace ScreenContextHook {
             float newangle = easeAngle.Update();
             
             // baka script
-            auto BAKA = Utils::u8ToString(u8"私バカです。");
+            //auto BAKA = Utils::u8ToString(u8"私バカです。");
+            std::string BAKA("Saturn Client");
             auto length = BAKA.size();
             static bool time_to_baka = true;
             static int count = 0 ;
             auto awaaa = BAKA.substr(0, count);
             auto now = std::chrono::steady_clock::now();
-            static auto manuke = std::chrono::steady_clock::time_point();
-            static auto tick_vertical_bar = std::chrono::steady_clock::time_point();
+            static auto typedTime = std::chrono::steady_clock::time_point();
+            static auto endTime = std::chrono::steady_clock::time_point();
+            static auto tick_vertical_bar = std::chrono::steady_clock::now();
             static bool typed = false;
-            auto woah = std::chrono::duration_cast<std::chrono::milliseconds>(now - start).count() ;
-            if (!typed && count < length && woah >= 250) {
-                start = std::chrono::steady_clock::now() ;
-                manuke = std::chrono::steady_clock::now() ;
+            auto woah = std::chrono::duration_cast<std::chrono::milliseconds>(now - updateTime).count() ;
+            bool canStartType = std::chrono::duration_cast<std::chrono::milliseconds>(now - endTime).count() >= 2000;
+            if (!typed && count < length && woah >= 350 && canStartType) {
+                updateTime = now;
                 count++;
             }
-            if (count == length) {
+            if (!typed && count == length) {
+                typedTime = now;
                 typed = true;
             }
-            if (count > 0 && typed && woah >= 15 && std::chrono::duration_cast<std::chrono::milliseconds>(now - manuke).count() >= 800) {
-                start = std::chrono::steady_clock::now();
+            if (count > 0 && typed && woah >= 25 && std::chrono::duration_cast<std::chrono::milliseconds>(now - typedTime).count() >= 1500) {
+                updateTime = now;
                 count--;
             }
             if (typed && count == 0) {
                 typed = false;
+                endTime = std::chrono::steady_clock::now();
+            }
+
+            auto tick = std::chrono::duration_cast<std::chrono::milliseconds>(now - tick_vertical_bar).count();
+            if (tick >= 200 && tick < 500) {
+                time_to_baka = false;
+            }
+            else if (tick >= 500) {
+                tick_vertical_bar = now;
+                time_to_baka = true;
             }
             //
             color[0] = 0.27058823529;
             color[1] = 0.14901960784;
             color[2] = 0.85490196078;
             auto newAngle = easeAngle.Update();
-            return oFunc(_this, font, awaaa + std::string(!awaaa.empty() ? "ﾂｧe|" : ""), position, color, angle, s * 2.f);
+            return oFunc(_this, font, awaaa + std::string(!awaaa.empty() && time_to_baka ? "ﾂｧe|" : ""), position, color, angle, s * 2.f);
         }
         drawSplashText() : HookClass("ScreenContext::drawSplashText", address)
         {
